@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV — Angélique Grondin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0a0f1c; --panel:#111827; --text:#e6eefc;
+      --primary:#00ffcc; --accent:#00e394; --muted:#8892b0;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;}
+    header{padding:2rem;text-align:center;background:linear-gradient(180deg,#0d1524 0%,transparent 100%);}
+    header h1{font-family:'Share Tech Mono',monospace;color:var(--primary);font-size:2.5rem;}
+    header p{color:var(--muted);}
+    nav{display:flex;justify-content:center;gap:1.5rem;margin-top:1rem;}
+    nav a{color:var(--primary);text-decoration:none;font-weight:500;transition:.3s;}
+    nav a:hover{color:var(--accent);}
+    section{max-width:900px;margin:3rem auto;padding:2rem;background:var(--panel);border-radius:12px;box-shadow:0 0 15px rgba(0,255,204,0.2);}
+    h2{color:var(--accent);border-bottom:1px solid var(--primary);padding-bottom:.5rem;margin-bottom:1rem;}
+    ul{list-style:none;margin-top:1rem;}
+    ul li::before{content:"▹";color:var(--primary);margin-right:.5rem;}
+    footer{text-align:center;padding:2rem;font-size:.9rem;color:var(--muted);}
+    .contact a{color:var(--primary);text-decoration:none;}
+    .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+
+    /* Canvas arrière-plan */
+    #circuit-bg, #matrix {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      z-index:-1;
+      background:#0a0f1c;
+    }
+    #matrix { z-index:-2; } /* Matrix encore plus en arrière */
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Angélique Grondin</h1>
+    <p>Étudiante BUT Réseaux & Cybersécurité — Chargée d'affaires alternance</p>
+    <nav>
+      <a href="#formations">Formations</a>
+      <a href="#experiences">Expériences</a>
+      <a href="#competences">Compétences</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="formations">
+    <h2>🎓 Diplômes & Formations</h2>
+    <ul>
+      <li>BUT Réseaux & Télécoms (Spécialité Cybersécurité) — IUT Saint-Pierre</li>
+      <li>MOOC ANSSI : Panorama SSI, Authentification, Internet, Poste de travail (100%)</li>
+      <li>Bac Général SI & LLCE — Lycée Moulin Joli (Mention Assez Bien)</li>
+    </ul>
+  </section>
+
+  <section id="experiences">
+    <h2>💼 Expériences</h2>
+    <ul>
+      <li>Stage AESH (Groupe scolaire Jean Marquet) — Accompagnement d’élèves en difficulté</li>
+    </ul>
+  </section>
+
+  <section id="competences">
+    <h2>⚡ Compétences</h2>
+    <div class="skills">
+      <div>
+        <h3>Réseaux</h3>
+        <ul><li>TCP/IP</li><li>DNS</li><li>DHCP</li></ul>
+      </div>
+      <div>
+        <h3>Systèmes</h3>
+        <ul><li>Linux</li><li>Windows</li></ul>
+      </div>
+      <div>
+        <h3>Dév & Web</h3>
+        <ul><li>HTML, CSS, PHP, JS</li><li>Bash, C/C++</li></ul>
+      </div>
+      <div>
+        <h3>Soft Skills</h3>
+        <ul><li>Analyse</li><li>Organisation</li><li>Travail d’équipe</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>📬 Contact</h2>
+    <p class="contact">
+      📧 <a href="mailto:angeliquegrondin.annejulie@gmail.com">angeliquegrondin.annejulie@gmail.com</a><br>
+      📱 06 92 20 77 79<br>
+      🌍 Saint-Pierre, Réunion<br>
+      🔗 <a href="https://www.linkedin.com/in/Angelique-grondin">LinkedIn</a> | 
+      <a href="https://github.com/YumiAtsune">GitHub</a> | 
+      <a href="https://www.instagram.com/angelique_grondin._">Instagram</a>
+    </p>
+  </section>
+
+  <footer>
+    © 2025 — CV Web Cyber | Design by Angélique Grondin
+  </footer>
+
+  <!-- Canvas Fonds -->
+  <canvas id="matrix"></canvas>
+  <canvas id="circuit-bg"></canvas>
+
+<script>
+/* === Animation Circuit Diagonal === */
+const canvasCircuit = document.getElementById('circuit-bg');
+const ctxC = canvasCircuit.getContext('2d');
+let w, h;
+
+function resizeCircuit(){
+  w = canvasCircuit.width = window.innerWidth;
+  h = canvasCircuit.height = window.innerHeight;
+}
+resizeCircuit();
+window.addEventListener('resize', resizeCircuit);
+
+function drawCircuit(){
+  ctxC.clearRect(0,0,w,h);
+  ctxC.strokeStyle = '#00ff99';
+  ctxC.lineWidth = 1.2;
+  const spacing = 40;
+  for(let x= -h; x<w; x+=spacing){
+    ctxC.beginPath();
+    ctxC.moveTo(x, h);
+    ctxC.lineTo(x+h, 0);
+    ctxC.stroke();
+  }
+}
+let alpha = 0, dir = 1;
+function animateCircuit(){
+  alpha += 0.02 * dir;
+  if(alpha > 1 || alpha < 0){ dir *= -1; }
+  ctxC.globalAlpha = 0.3 + alpha*0.2;
+  drawCircuit();
+  requestAnimationFrame(animateCircuit);
+}
+animateCircuit();
+
+/* === Animation Matrix Rain === */
+const canvasM = document.getElementById('matrix');
+const ctxM = canvasM.getContext('2d');
+let cols, drops, fontSize;
+function resizeMatrix(){
+  canvasM.width = window.innerWidth;
+  canvasM.height = window.innerHeight;
+  fontSize = 14;
+  cols = Math.floor(canvasM.width / fontSize);
+  drops = new Array(cols).fill(1);
+  ctxM.font = fontSize + "px 'Share Tech Mono'";
+}
+resizeMatrix();
+window.addEventListener('resize', resizeMatrix);
+
+const chars = '01';
+function drawMatrix(){
+  ctxM.fillStyle = 'rgba(0,0,0,0.1)';
+  ctxM.fillRect(0,0,canvasM.width,canvasM.height);
+  ctxM.fillStyle = '#00e394';
+  for(let i=0;i<drops.length;i++){
+    const text = chars[Math.floor(Math.random()*chars.length)];
+    ctxM.fillText(text, i*fontSize, drops[i]*fontSize);
+    if(drops[i]*fontSize > canvasM.height && Math.random() > 0.975) drops[i]=0;
+    drops[i]++;
+  }
+  requestAnimationFrame(drawMatrix);
+}
+drawMatrix();
+</script>
+
+</body>
+</html>
